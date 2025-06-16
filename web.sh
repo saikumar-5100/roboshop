@@ -60,7 +60,7 @@ unzip /tmp/web.zip
 check $? "unzipping application"
 
 #copying roboshop configuration file
-cp -r ~/root/roboshop /etc/nginx/sites-available/roboshop &>> $LF
+cp -r ~/root/roboshop/roboshop /etc/nginx/sites-available/roboshop &>> $LF
 check $? "copying roboshop configuration file"
 #generating sym link
 ln -s /etc/nginx/sites-available/roboshop /etc/nginx/sites-enabled/ &>> $LF
