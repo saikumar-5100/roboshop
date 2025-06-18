@@ -35,8 +35,7 @@ else
 echo -e "Accessing as root user"
 fi
 
-echo -e "$Y starting script execution at $TS $N"
-
+echo -e "$Y starting script execution at $TS $N"apt update
 #requirments to setup nodejs environment
 apt update &>> $LF
  check $? "update"
@@ -51,29 +50,29 @@ apt install nodejs -y &>> $LF
 useradd roboshop &>> $LF
  check $? "roboshop user added"
 
-#downloading application 
+#downloading application
 cd / && mkdir -p app
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LF
- check $? "catalogue application downloaded"
+curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip
+ check $? "user application downloaded"
 cd app
-unzip /tmp/catalogue.zip &>> $LF
- check $? "unzip catalogue"
+unzip /tmp/user.zip
+ check $? "unzip user"
 cd / && apt install npm -y &>> $LF
  check $? "npm installed"
 cd /app 
 npm install &>> $LF
  check $? "npm runned in application location"
 
-#catalogue service file setup
-cp -r ~/roboshop/catalogue.service /etc/systemd/system/catalogue.service &>> $LF
+#user service file setup
+cp -r ~/roboshop/user.service /etc/systemd/system/user.service &>> $LF
 systemctl daemon-reload  &>> $LF
  check $? "daemon-reload" 
 systemctl enable catalogue
- check $? "catalogue enabled"
+ check $? "user enabled"
 systemctl start catalogue &>> $LF
- check $? "catalogue started"
+ check $? "user started"
 
-#mongodb client setup(can use any other server)
+ #mongodb client setup(can use any other server)
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
   gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor -y &>> $LF
 
@@ -85,7 +84,7 @@ apt update &>> $LF
  check $? "update"
 apt install -y mongodb-mongosh &>> $LF
  check $? "mongosh client installed"
-mongosh --host mongo.rs37.xyz </app/schema/catalogue.js &>> $LF
- check $? "schema loaded"
-systemctl restart catalogue &>> $LF
- check $? "restart catalogue"
+mongosh --host mongo.rs37.xyz </app/schema/user.js &>> $LF
+ check $? "user schema loaded"
+systemctl restart user &>> $LF
+ check $? "restart user"

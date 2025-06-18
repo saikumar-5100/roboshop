@@ -12,9 +12,9 @@ N="\e[0m"
 TS=$(date +%F-%H-%M-%S)
 echo -e "$Y started execution at $TS $N"
 
-mkdir ~/logger
+mkdir -p ~/logger
 
-LF="/root/logger/$0-$TS.log"
+LF="~/logger/$0-$TS.log"
 
 #Function to validate the executed command
 check(){

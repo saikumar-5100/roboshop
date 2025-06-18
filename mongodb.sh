@@ -12,9 +12,9 @@ N="\e[0m"
 TS=$(date +%F-%H-%M-%S)
 echo -e "$Y started execution at $TS $N"
 
-mkdir ~/logger
+mkdir -p ~/logger
 
-LF="/root/logger/$0-$TS.log"
+LF="~/logger/$0-$TS.log"
 
 #Function to validate the executed command
 check(){
@@ -43,11 +43,11 @@ apt update &>> $LF
  apt install net-tools &>> $LF
  check $? "net-tools installed"
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
-  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor &>> $LF
+  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor -y &>> $LF
 
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] \
   https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | \
-  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list &>> $LF
+  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list -y &>> $LF
  check $? "mongo repo and gpg download"
 
 #install mongodb
@@ -55,7 +55,7 @@ apt update &>> $LF
  check $? "update"
 apt install -y mongodb-org &>> $LF
  check $? "mongodb install"
-systemctl enable mongod &>>
+systemctl enable mongod &>> $LF
  check $? "mongodb enabled" 
 systemctl start mongod &>> $LF
  check $? "mongodb started" 
