@@ -56,7 +56,7 @@ cd / && mkdir -p app
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LF
  check $? "catalogue application downloaded"
 cd app
-unzip /tmp/catalogue.zip &>> $LF
+unzip -o /tmp/catalogue.zip -y &>> $LF
  check $? "unzip catalogue"
 cd / && apt install npm -y &>> $LF
  check $? "npm installed"
@@ -75,11 +75,11 @@ systemctl start catalogue &>> $LF
 
 #mongodb client setup(can use any other server)
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
-  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor -y &>> $LF
+  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor &>> $LF
 
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] \
   https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | \
-  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list -y &>> $LF
+  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list &>> $LF
 check $? "mongo repo and gpg download"
 apt update &>> $LF
  check $? "update"

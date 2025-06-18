@@ -43,11 +43,11 @@ apt update &>> $LF
  apt install net-tools &>> $LF
  check $? "net-tools installed"
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
-  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor -y &>> $LF
+  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor &>> $LF
 
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] \
   https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | \
-  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list -y &>> $LF
+  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list &>> $LF
  check $? "mongo repo and gpg download"
 
 #install mongodb

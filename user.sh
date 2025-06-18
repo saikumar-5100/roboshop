@@ -14,7 +14,7 @@ echo -e "$Y started execution at $TS $N"
 
 mkdir -p ~/logger
 
-LF="~/logger/$0-$TS.log"
+LF="/root/logger/$0-$TS.log"
 
 #Function to validate the executed command
 check(){
@@ -55,7 +55,7 @@ cd / && mkdir -p app
 curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip
  check $? "user application downloaded"
 cd app
-unzip /tmp/user.zip
+unzip -o /tmp/user.zip
  check $? "unzip user"
 cd / && apt install npm -y &>> $LF
  check $? "npm installed"
@@ -67,18 +67,18 @@ npm install &>> $LF
 cp -r ~/roboshop/user.service /etc/systemd/system/user.service &>> $LF
 systemctl daemon-reload  &>> $LF
  check $? "daemon-reload" 
-systemctl enable catalogue
+systemctl enable user
  check $? "user enabled"
-systemctl start catalogue &>> $LF
+systemctl start user &>> $LF
  check $? "user started"
 
  #mongodb client setup(can use any other server)
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
-  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor -y &>> $LF
+  gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor &>> $LF
 
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] \
   https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | \
-  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list -y &>> $LF
+  sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list &>> $LF
 check $? "mongo repo and gpg download"
 apt update &>> $LF
  check $? "update"

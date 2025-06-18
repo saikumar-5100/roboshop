@@ -42,12 +42,12 @@ apt update &>> $LF
  check $? "update"
 apt install unzip -y &>> $LF
  check $? "unzip installed"
-apt install net-tools &>> $LF
+apt install net-tools -y &>> $LF
  check $? "net-tools installed"
-apt install lsb-release curl gpg -y
+apt install lsb-release curl gpg
 
-curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg -y
-sudo chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg -y
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+sudo chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
 
 echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list -y
  check $? "gpg key downloded"
@@ -55,9 +55,10 @@ apt update &>> $LF
  check $? "update"
 apt install redis -y
  check $? "redis installed"
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf 
-sed -i 's/protected mode yes/protected mode no/g' /etc/redis.conf 
- check $? "protection mode off"
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf 
+sed -i 's/protected-mode yes/protected-mode no/g' /etc/redis/redis.conf 
+ check $? "protected-mode off"
 systemctl enable redis-server
  check $? "redis enabled"
-systemctl status redis
+systemctl restart redis-server
+ check $? "redis restarted"

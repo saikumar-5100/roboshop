@@ -67,3 +67,5 @@ check $? "copying roboshop configuration file"
 #generating sym link
 ln -s /etc/nginx/sites-available/roboshop /etc/nginx/sites-enabled/ &>> $LF
 check $? "symlink generation"
+systemctl restart nginx &>> $LF
+ check $? "restart nginx" &>> $LF
