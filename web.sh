@@ -12,7 +12,7 @@ N="\e[0m"
 TS=$(date +%F-%H-%M-%S)
 echo -e "$Y started execution at $TS $N"
 
-mkdir logger
+mkdir ~/logger
 
 LF="/root/logger/$0-$TS.log"
 
