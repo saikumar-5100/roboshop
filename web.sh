@@ -12,6 +12,8 @@ N="\e[0m"
 TS=$(date +%F-%H-%M-%S)
 echo -e "$Y started execution at $TS $N"
 
+mkdir logger
+
 LF="/root/logger/$0-$TS.log"
 
 #Function to validate the executed command
@@ -35,7 +37,7 @@ fi
 
 echo -e "$Y starting script execution at $TS $N"
 
-#least possible requirements 
+#requirements to setup environment
 apt update &>> $LF
  check $? "update"
 apt install unzip -y &>> $LF
@@ -43,7 +45,7 @@ apt install unzip -y &>> $LF
 apt install net-tools -y &>> $LF
  check $? "net-tools installed"
 apt install nginx -y &>> $LF
- check $? "installling nginx"
+ check $? "installing nginx"
 systemctl enable nginx &>> $LF
  check $? "enabled" &>> $LF
 systemctl start nginx
@@ -52,15 +54,15 @@ systemctl start nginx
 #application downloading
 rm -rf /var/www/html/*
 check $? "removed files from default html"
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LF
 check $? "downloading application"
 cd /var/www/html
 check $? "changing the directory to html"
-unzip /tmp/web.zip
+unzip /tmp/web.zip &>> $LF
 check $? "unzipping application"
 
 #copying roboshop configuration file
-cp -r ~/root/roboshop/roboshop /etc/nginx/sites-available/roboshop &>> $LF
+cp -r ~/roboshop/roboshop /etc/nginx/sites-available/roboshop &>> $LF
 check $? "copying roboshop configuration file"
 #generating sym link
 ln -s /etc/nginx/sites-available/roboshop /etc/nginx/sites-enabled/ &>> $LF
