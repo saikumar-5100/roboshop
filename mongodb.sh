@@ -14,7 +14,7 @@ echo -e "$Y started execution at $TS $N"
 
 mkdir -p ~/logger
 
-LF="~/logger/$0-$TS.log"
+LF="/root/logger/$0-$TS.log"
 
 #Function to validate the executed command
 check(){
