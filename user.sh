@@ -52,7 +52,7 @@ useradd roboshop &>> $LF
 
 #downloading application
 cd / && mkdir -p app
-curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip
+curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LF
  check $? "user application downloaded"
 cd app
 unzip -o /tmp/user.zip
