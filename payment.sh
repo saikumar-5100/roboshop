@@ -35,39 +35,43 @@ else
 echo -e "Accessing as root user"
 fi
 
-echo -e "$Y starting script execution at $TS $N"apt update
-#requirments to setup nodejs environment
+echo -e "$Y starting script execution at $TS $N"
+
+#requirments to setup python environment
 apt update &>> $LF
  check $? "update"
 apt install unzip -y &>> $LF
  check $? "unzip installed"
 apt install net-tools &>> $LF
  check $? "net-tools installed"
-apt install nodejs -y &>> $LF
- check $? "installing nodejs"
+apt install python3-pip -y &>> $LF
+ check $? "installing python3"
+pip3 install -r requirements.txt &>> $LF
+check $? "installing pip3"
 
 #adding a user
 useradd roboshop &>> $LF
  check $? "roboshop user added"
 
-#downloading cart application
+#downloading payment application
 cd / && mkdir -p app
-curl -L -o /tmp/cart.zip https://sairobo.s3.amazonaws.com/cart.zip &>> $LF
- check $? "cart application downloaded"
+curl -o /tmp/payment.zip https://sairobo.s3.amazonaws.com/payment.zip &>> $LF
+ check $? "payment application downloaded"
 cd app
-unzip -o /tmp/cart.zip &>> $LF
- check $? "unzip cart"
-cd / && apt install npm -y &>> $LF
- check $? "npm installed"
-cd /app 
-npm install &>> $LF
- check $? "npm runned in application location"
+unzip -o /tmp/payment.zip &>> $LF
+ check $? "unzip payment"
 
- #cart service file setup
- cp -r ~/roboshop/cart.service /etc/systemd/system/cart.service &>> $LF
+apt update &>> $LF
+ check $? "update"
+pip3 install -r requirements.txt &>> $LF
+check $? "installing pip3"
+
+#payment service file setup
+cp -r ~/roboshop/payment.service /etc/systemd/system/payment.service &>> $LF
+
 systemctl daemon-reload  &>> $LF
  check $? "daemon-reload" 
-systemctl enable cart &>>
- check $? "cart enabled"
-systemctl start cart &>> $LF
- check $? "cart started"
+systemctl enable payment
+ check $? "payment enabled"
+systemctl start payment &>> $LF
+ check $? "payment service started"

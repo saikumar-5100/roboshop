@@ -38,7 +38,7 @@ fi
 echo -e "$Y starting script execution at $TS $N"
 
 #requirments to setup nodejs environment
-apt update &>> $LF
+apt update  &>> $LF
  check $? "update"
 apt install unzip -y &>> $LF
  check $? "unzip installed"
@@ -53,10 +53,10 @@ useradd roboshop &>> $LF
 
 #downloading application 
 cd / && mkdir -p app
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LF
+curl -o /tmp/catalogue.zip https://sairobo.s3.amazonaws.com/catalogue.zip &>> $LF
  check $? "catalogue application downloaded"
 cd app
-unzip -o /tmp/catalogue.zip -y &>> $LF
+unzip -o /tmp/catalogue.zip &>> $LF
  check $? "unzip catalogue"
 cd / && apt install npm -y &>> $LF
  check $? "npm installed"
