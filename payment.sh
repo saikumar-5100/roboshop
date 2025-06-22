@@ -55,7 +55,7 @@ useradd roboshop &>> $LF
 
 #downloading payment application
 cd / && mkdir -p app
-curl -o /tmp/payment.zip https://sairobo.s3.amazonaws.com/payment.zip &>> $LF
+curl -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip &>> $LF
  check $? "payment application downloaded"
 cd app
 unzip -o /tmp/payment.zip &>> $LF

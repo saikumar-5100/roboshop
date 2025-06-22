@@ -52,7 +52,7 @@ useradd roboshop &>> $LF
 
 #downloading shipping application
 cd / && mkdir app
-curl -L -o /tmp/shipping.zip https://sairobo.s3.amazonaws.com/shipping.zip &>> $LF
+curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LF
 check $? "shipping application downloaded"
 cd app
 unzip -o /tmp/shipping.zip &>> $LF

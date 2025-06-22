@@ -54,7 +54,7 @@ systemctl start nginx
 #application downloading
 rm -rf /var/www/html/*
 check $? "removed files from default html"
-curl -o /tmp/web.zip https://sairobo.s3.amazonaws.com/web.zip &>> $LF
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LF
 check $? "downloading application"
 cd /var/www/html
 check $? "changing the directory to html"
