@@ -67,7 +67,7 @@ npm install &>> $LF
  cp -r ~/roboshop/cart.service /etc/systemd/system/cart.service &>> $LF
 systemctl daemon-reload  &>> $LF
  check $? "daemon-reload" 
-systemctl enable cart &>>
+systemctl enable cart &>> $LF
  check $? "cart enabled"
 systemctl start cart &>> $LF
  check $? "cart started"
