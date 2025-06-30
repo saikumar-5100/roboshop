@@ -46,8 +46,6 @@ apt install net-tools &>> $LF
  check $? "net-tools installed"
 apt install python3-pip -y &>> $LF
  check $? "installing python3"
-pip3 install -r requirements.txt &>> $LF
-check $? "installing pip3"
 
 #adding a user
 useradd roboshop &>> $LF

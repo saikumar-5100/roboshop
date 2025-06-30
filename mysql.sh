@@ -48,8 +48,6 @@ systemctl enable mysql
 systemctl start mysql
  check $? "mysql started"
 
-mysql_secure_installation --set-root-pass RoboShop@1
-check $? "set password"
 
 #mysql password setup
 mysql -u root -p'RoboShop@1' -e "CREATE USER 'root'@'shipping.rs37.xyz.eu-north-1.compute.internal' IDENTIFIED BY 'RoboShop@1'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'shipping.rs37.xyz.eu-north-1.compute.internal' WITH GRANT OPTION; FLUSH PRIVILEGES;"

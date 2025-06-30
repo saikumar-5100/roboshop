@@ -39,26 +39,20 @@ echo -e "$Y starting script execution at $TS $N"
 
 #requirments to setup rabbitmq environment
 apt update &>> $LF
- check $? "update"
-apt install curl gnupg apt-transport-https lsb-release -y
-curl -fsSL https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo gpg --dearmor -o /usr/share/keyrings/erlang.gpg
-echo "deb [signed-by=/usr/share/keyrings/erlang.gpg] https://packages.erlang-solutions.com/ubuntu noble contrib" | sudo tee /etc/apt/sources.list.d/erlang.list
+apt install -y curl gnupg apt-transport-https &>> $LF
+check $? "update"
+curl -1sLf 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/setup.deb.sh' \
+  | sudo -E bash &>> $LF
+check $? "installing rabbitmq from cloudsmith"
+apt install -y rabbitmq-server &>> $LF
+check $? "rabbitmq installed"
+systemctl enable --now rabbitmq-server
+systemctl status rabbitmq-server &>> $LF
+check $? "rabbitmq enabled"
+sudo rabbitmq-plugins enable rabbitmq_management &>> $LF
+check $? "enabled plugins"
 
-apt update &>> $LF
- check $? "update"
-apt install erlang -y
-check $? "erlang"
-curl -fsSL https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/rabbitmq.gpg
-echo "deb [signed-by=/usr/share/keyrings/rabbitmq.gpg] https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu noble main" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
-
-apt update &>> $LF
- check $? "update"
-apt install rabbitmq-server -y
- check $? "rabbitmq installed"
-systemctl enable rabbitmq-server
- check $? "enabled rabbitmq"
-rabbitmq-plugins enable rabbitmq_management
-systemctl start rabbitmq-server
-http://rabbitmq.rs37.xyz:15672
 rabbitmqctl add_user roboshop roboshop123
+rabbitmqctl set_user_tags roboshop administrator
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+check $? "setting username and password"
